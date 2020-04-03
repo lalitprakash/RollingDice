@@ -20,3 +20,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //maxmind routes
 Route::post('maxmind','MaxmindController@MaxmindRequestSave');
+
+//maxmind routes
+Route::post('maxmindcurl','MaxmindController@MaxmindRequest');
+
+
+
+
+
+

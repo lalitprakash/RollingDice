@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\MaxmindRequestModel;
-use App\Model\MaxmindResponseModel;
+/*use App\Model\MaxmindRequestModel;
+use App\Model\MaxmindResponseModel;*/
 use MaxMind\MinFraud;
 
 
@@ -12,6 +12,7 @@ class MaxmindController extends Controller
 {
     //save requesr 
     public function MaxmindRequestSave(Request $request){
+       
     	$site_id   = $request->get('site_id');
     	$site_name = $request->get('site_name');
         $ip_addres = $request->get('ip_address');
@@ -84,18 +85,18 @@ class MaxmindController extends Controller
 		$username_md5 = md5($username_md5);
 	    }
 	//adding request to request Model
-    $maxreqdata = MaxmindRequestModel::create($request->all());
+    //$maxreqdata = MaxmindRequestModel::create($request->all());
    /* return response()->json($maxreqdata,200);
 
     exit;*/
     //return response()->json('data has been inserted',201);
-    $maxreqid  = $maxreqdata->id; 
+   // $maxreqid  = $maxreqdata->id; 
 	//return responsce()->json('testing end',20);
     
 	
     //testing the data in to database..
 
-    $maxmind = new MinFraud(userid,'key');
+    $maxmind = new MinFraud(231747,'X3MRhIz988pVLyHo');
 
     
     $mxrequest = $maxmind->withDevice([
@@ -202,7 +203,7 @@ class MaxmindController extends Controller
 		}else{
 			 $status = 0;
 		}
-        
+        $maxreqid  =rand(10,99);
         $resarray 	= Array(
         'request_id'=> $maxreqid,
         'risk_score' => $score, 
@@ -231,8 +232,17 @@ class MaxmindController extends Controller
 		 );
 
 
-        $resutl=MaxmindResponseModel::create($resarray);
+        //$resutl=MaxmindResponseModel::create($resarray);
         
-		return response()->json($resutl,200);
+		return response()->json($resarray,200);
+    }
+
+    public function MaxmindRequest(Request $request){
+
+      $resarray = $request->all();
+     /* $resarray = Array(
+        'request_id'=> 'abc',
+        'risk_score' => '0.7');*/
+         return response()->json($resarray,200); 
     }
 }
